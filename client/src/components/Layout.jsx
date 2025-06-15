@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Menu, X, Home, History, BadgeDollarSign, Banknote, Goal, UserCircle, SlidersVertical
 } from "lucide-react";
-import { href, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../contexts/AppProvider";
 
 export default function Layout() {
@@ -21,7 +21,7 @@ export default function Layout() {
     { name: "Dashboard", icon: <Home size={20} />, href: "/" },
     { name: "Add Transactions", icon: <BadgeDollarSign size={20} />, href: "/add-transactions" },
     { name: "Budgets", icon: <Goal size={20} />, href: "/budgets" },
-    { name: "Set Budgets", icon: <SlidersVertical size={20} />, href: "set-budgets" },
+    { name: "Set Budgets", icon: <SlidersVertical size={20} />, href: "/set-budgets" },
     { name: "Transactions", icon: <History size={20} />, href: "/transactions" },
   ];
 
@@ -46,7 +46,7 @@ export default function Layout() {
   }, [isOpen, showUserDropdown]);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
@@ -77,9 +77,9 @@ export default function Layout() {
               to={href}
               className={`flex items-center gap-3 py-3 px-2.5 font-semibold rounded-lg border
               ${location.pathname === href
-                  ? "bg-blue-50 text-blue-700 border-blue-200"
-                  : "border-transparent text-gray-700 hover:bg-gray-100"
-                }`}
+                ? "bg-blue-50 text-blue-700 border-blue-200"
+                : "border-transparent text-gray-700 hover:bg-gray-100"
+              }`}
             >
               {icon} <span>{name}</span>
             </Link>
@@ -87,8 +87,8 @@ export default function Layout() {
         </nav>
       </aside>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col h-full">
         {/* Header */}
         <header className="sticky top-0 z-30 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between gap-4">
           <button
@@ -113,7 +113,7 @@ export default function Layout() {
               />
             </div>
 
-            {/* User dropdown */}
+            {/* User Dropdown */}
             <div className="relative" ref={userDropdownRef}>
               <button onClick={() => setShowUserDropdown(prev => !prev)}>
                 <UserCircle size={30} className="text-gray-700" />
@@ -134,8 +134,8 @@ export default function Layout() {
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="p-6 bg-gray-50 flex-1">
+        {/* Scrollable Page Content */}
+        <main className="p-6 bg-gray-50 flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>
