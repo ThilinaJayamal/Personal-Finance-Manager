@@ -134,7 +134,7 @@ export default function Layout() {
         </header>
 
         {/* Page content */}
-        <main className="p-6">
+        <main className="p-6 bg-gray-50 flex-1">
           <Outlet />
         </main>
       </div>
