@@ -1,0 +1,22 @@
+# Node.js dependencies
+/client/node_modules
+/server/node_modules
+
+# Environment variables
+/client/.env
+/server/.env
+.env
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Other common exclusions
+node_modules/
+package-lock.json
+yarn.lock
