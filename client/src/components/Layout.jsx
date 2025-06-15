@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  Menu, X, Home, History, BadgeDollarSign, Banknote, Goal, UserCircle
+  Menu, X, Home, History, BadgeDollarSign, Banknote, Goal, UserCircle, SlidersVertical
 } from "lucide-react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { href, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../contexts/AppProvider";
 
 export default function Layout() {
@@ -21,6 +21,7 @@ export default function Layout() {
     { name: "Dashboard", icon: <Home size={20} />, href: "/" },
     { name: "Add Transactions", icon: <BadgeDollarSign size={20} />, href: "/add-transactions" },
     { name: "Budgets", icon: <Goal size={20} />, href: "/budgets" },
+    { name: "Set Budgets", icon: <SlidersVertical size={20} />, href: "set-budgets" },
     { name: "Transactions", icon: <History size={20} />, href: "/transactions" },
   ];
 
