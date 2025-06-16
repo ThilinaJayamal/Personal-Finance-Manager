@@ -1,13 +1,12 @@
-import React from 'react';
-
-import { FaUtensils, FaCar, FaShoppingBag, FaTheaterMasks, FaBolt } from 'react-icons/fa';
+import React from "react";
+import { Utensils, Car, ShoppingBag, Theater, Bolt } from "lucide-react";
 
 const iconMap = {
-  'Food & Dining': <FaUtensils size={24} color="#000" />,
-  'Transportation': <FaCar size={24} color="#000" />,
-  'Shopping': <FaShoppingBag size={24} color="#000" />,
-  'Entertainment': <FaTheaterMasks size={24} color="#000" />,
-  'Bills & Utilities': <FaBolt size={24} color="#000" />,
+  "Food & Dining": <Utensils size={24} color="#000" />,
+  "Transportation": <Car size={24} color="#000" />,
+  "Shopping": <ShoppingBag size={24} color="#000" />,
+  "Entertainment": <Theater size={24} color="#000" />,
+  "Bills & Utilities": <Bolt size={24} color="#000" />,
 };
 
 const BudgetCategoryItem = ({ name, spent, budget }) => {
@@ -15,9 +14,9 @@ const BudgetCategoryItem = ({ name, spent, budget }) => {
   const remaining = budget - spent;
 
   const getPercentageColor = () => {
-    if (percentage > 100) return 'text-red-500';
-    if (percentage >= 90) return 'text-yellow-500';
-    return 'text-green-500';
+    if (percentage > 100) return "text-red-500";
+    if (percentage >= 90) return "text-yellow-500";
+    return "text-green-500";
   };
 
   return (

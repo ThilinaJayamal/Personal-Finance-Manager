@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import {
   Menu, X, Home, History, BadgeDollarSign, Banknote, Goal, UserCircle, SlidersVertical
 } from "lucide-react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppProvider";
 
 export default function UserLayout() {
-  const { setSearchKeys } = useAppContext();
-  const navigate = useNavigate();
+  const { setSearchKeys, logout, navigate, user } = useAppContext();
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +15,14 @@ export default function UserLayout() {
   const sidebarRef = useRef(null);
   const toggleRef = useRef(null);
   const userDropdownRef = useRef(null);
+
+  const handleLogout = async () => {
+    try {
+      const res = await logout();
+    } catch (error) {
+      return null;
+    }
+  }
 
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, href: "/" },
@@ -77,9 +84,9 @@ export default function UserLayout() {
               to={href}
               className={`flex items-center gap-3 py-3 px-2.5 font-semibold rounded-lg border
               ${location.pathname === href
-                ? "bg-blue-50 text-blue-700 border-blue-200"
-                : "border-transparent text-gray-700 hover:bg-gray-100"
-              }`}
+                  ? "bg-blue-50 text-blue-700 border-blue-200"
+                  : "border-transparent text-gray-700 hover:bg-gray-100"
+                }`}
             >
               {icon} <span>{name}</span>
             </Link>
@@ -115,16 +122,16 @@ export default function UserLayout() {
 
             {/* User Dropdown */}
             <div className="relative" ref={userDropdownRef}>
-              <button onClick={() => setShowUserDropdown(prev => !prev)}>
+              <button onClick={() => setShowUserDropdown(prev => !prev)} className="cursor-pointer">
                 <UserCircle size={30} className="text-gray-700" />
               </button>
 
               {showUserDropdown && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow p-4 z-50">
-                  <p className="text-sm font-semibold text-gray-800 mb-2">user@email.com</p>
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-gray-200 p-4 z-50">
+                  <p className="text-sm font-semibold text-gray-800 mb-2">{user.email}</p>
                   <button
-                    className="text-red-500 hover:text-red-600 text-sm font-medium"
-                    onClick={() => alert("Logging out...")}
+                    className="text-red-500 cursor-pointer bg-red-50 border w-full px-3 py-2 rounded border-red-500 text-sm font-medium"
+                    onClick={handleLogout}
                   >
                     Logout
                   </button>

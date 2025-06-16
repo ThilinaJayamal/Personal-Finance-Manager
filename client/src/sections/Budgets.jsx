@@ -1,8 +1,8 @@
 import React from "react";
-import { TrendingUp, Target, TriangleAlert } from "lucide-react";
+import { PiggyBank, Wallet, CheckCircle } from "lucide-react";
 import BudgetCategoryItem from "../components/BudgetCategoryItem";
 
-function Budgets({ budget }) {
+function Budgets() {
   // Example categories data
   const categories = [
     { name: "Food & Dining", spent: 12000, budget: 20000 },
@@ -12,6 +12,7 @@ function Budgets({ budget }) {
     { name: "Bills & Utilities", spent: 8000, budget: 12000 },
   ];
 
+  const budget = [];
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -19,7 +20,7 @@ function Budgets({ budget }) {
           {/* Total Budget */}
           <div className="flex flex-row justify-between">
             <h5 className="text-sm text-gray-500 font-bold">Total Budget</h5>
-            <Target className="text-blue-600 w-4 h-4" />
+            <PiggyBank className="text-blue-600 w-4 h-4" />
           </div>
           <div className="mt-2 text-2xl font-bold">Rs {budget}</div>
           <div className="text-xs text-gray-400">Monthly allocation</div>
@@ -29,7 +30,7 @@ function Budgets({ budget }) {
           {/* Total Spent */}
           <div className="flex flex-row justify-between">
             <h5 className="text-sm text-gray-700 font-bold">Total Spent</h5>
-            <TrendingUp className="text-red-600 w-4 h-4" />
+            <Wallet className="text-red-600 w-4 h-4" />
           </div>
           <div className="mt-2 text-2xl font-bold">Rs 60000</div>
           <div className="text-xs text-gray-400">This month</div>
@@ -39,7 +40,7 @@ function Budgets({ budget }) {
           {/* Remaining */}
           <div className="flex flex-row justify-between">
             <h5 className="text-sm text-gray-500 font-bold">Remaining</h5>
-            <TriangleAlert className="text-green-400 w-4 h-4" />
+            <CheckCircle className="text-green-400 w-4 h-4" />
           </div>
           <div className="mt-2 text-green-400 text-2xl font-bold">Rs 10000</div>
           <div className="text-xs text-gray-400">Available</div>
@@ -47,12 +48,12 @@ function Budgets({ budget }) {
       </div>
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {categories.map((cat) => (
+        {categories.map((item) => (
           <BudgetCategoryItem
-            key={cat.name}
-            name={cat.name}
-            spent={cat.spent}
-            budget={cat.budget}
+            key={item.name}
+            name={item.name}
+            spent={item.spent}
+            budget={item.budget}
           />
         ))}
       </div>
