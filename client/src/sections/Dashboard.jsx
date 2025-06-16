@@ -2,18 +2,20 @@ import React from 'react'
 import MoneyCard from '../components/MoneyCard'
 import SimpleLineChart from '../components/SimpleLineChart'
 import PieChart from '../components/PieChart'
+import { useAppContext } from '../contexts/AppProvider'
 
 function Dashboard() {
+  const { statistic } = useAppContext();
   return (
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
         <div className='grid xl:grid-cols-2 grid-cols-1 gap-4'>
-          <MoneyCard title={"Total Balance"} amount={"Rs 87,000.00"} icon={"$"} style={"text-green-600"}/>
-          <MoneyCard title={"Monthly Income"} amount={"Rs 180,000.00"} icon={"+"} style={"text-blue-600"}/>
+          <MoneyCard title={"Total Balance"} amount={"Rs." + statistic.balance} icon={"$"} style={"text-green-600"} />
+          <MoneyCard title={"Monthly Income"} amount={"Rs." + statistic.income} icon={"+"} style={"text-blue-600"} />
         </div>
         <div className='grid xl:grid-cols-2 grid-cols-1 gap-4'>
-          <MoneyCard title={"Monthly Expenses"} amount={"Rs 56,000.00"} icon={"-"} style={"text-red-600"} />
-          <MoneyCard title={"Savings Rate"} amount={"4.58%"} icon={"%"} color={""} style={"text-black"}/>
+          <MoneyCard title={"Monthly Expenses"} amount={"Rs." + statistic.expense} icon={"-"} style={"text-red-600"} />
+          <MoneyCard title={"Savings Rate"} amount={statistic.savingRate + "%"} icon={"%"} color={""} style={"text-black"} />
         </div>
       </div>
 
@@ -21,13 +23,13 @@ function Dashboard() {
         <div className='bg-white rounded-xl p-6'>
           <h3 className='font-semibold text-2xl'>Income vs Expenses</h3>
           <div className='mt-12'>
-            <SimpleLineChart/>
+            <SimpleLineChart />
           </div>
         </div>
         <div className='bg-white rounded-xl p-6'>
           <h3 className='font-semibold text-2xl'>Expense Categories</h3>
           <div>
-            <PieChart/>
+            <PieChart />
           </div>
         </div>
       </div>

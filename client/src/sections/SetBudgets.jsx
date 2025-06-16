@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import BudgetCardDisplay from '../components/BudgetCardDisplay';
+import { useAppContext } from '../contexts/AppProvider';
+import toast from 'react-hot-toast';
 
 const monthlyBudgets = [
   { id: 1, category: 'Food & Dining', amount: 250.0, createdAt: '2025-06-01T10:15:00Z' },
@@ -13,33 +15,30 @@ const monthlyBudgets = [
 ];
 
 function SetBudgets() {
+  const { addBudget, budgets, getBudgets, expenseCategory } = useAppContext();
   const [category, setCategory] = useState('');
-  const [budget, setBudget] = useState('');
+  const [amount, setAmount] = useState('');
 
-  const expenseData = [
-    'Food & Dining',
-    'Transportation',
-    'Shopping',
-    'Entertainment',
-    'Bills & Utilities',
-    'Healthcare',
-    'Travel',
-    'Other',
-  ];
-
-  const handleSubmit = () => {
-    if (!category || !budget) {
-      alert('Please select a category and enter a budget.');
+  const handleSubmit = async () => {
+    if (!category || !amount) {
+      toast.error('Please select a category and enter a budget.');
       return;
     }
-
-    console.log(`Set budget for ${category}: Rs ${budget}`);
-    setCategory('');
-    setBudget('');
+    try {
+      await addBudget({
+        category,
+        amount
+      });
+      await getBudgets();
+      setCategory('');
+      setAmount('');
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
-    <div className='w-full max-w-5xl mx-auto'>
+    <div className='w-full'>
       {/* Set Budget Section */}
       <div className='rounded-xl bg-white py-6 px-6 border border-gray-200'>
         <h1 className='text-xl font-semibold mb-6'>
@@ -59,7 +58,7 @@ function SetBudgets() {
               className='pl-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
             >
               <option value=''>Select category...</option>
-              {expenseData.map((item, index) => (
+              {expenseCategory.map((item, index) => (
                 <option key={index} value={item}>
                   {item}
                 </option>
@@ -78,8 +77,8 @@ function SetBudgets() {
                 id='budget'
                 type='number'
                 placeholder='0.00'
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
                 className='pl-10 pr-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
               />
             </div>
@@ -102,7 +101,7 @@ function SetBudgets() {
         <h3 className='text-xl font-semibold'>Monthly Budgets</h3>
 
         <div className='flex flex-col gap-4 mt-6'>
-          {monthlyBudgets.map((item) => (
+          {budgets.map((item) => (
             <BudgetCardDisplay key={item.id} item={item} />
           ))}
         </div>

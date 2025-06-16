@@ -4,7 +4,7 @@ import { useAppContext } from '../contexts/AppProvider';
 function Login() {
   const { login, register, navigate } = useAppContext();
 
-  const [state, setState] = useState('sign-up');
+  const [state, setState] = useState('login');
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

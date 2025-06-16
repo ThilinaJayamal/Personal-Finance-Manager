@@ -1,9 +1,17 @@
 import express from 'express';
-import { setBudget, getBudgets } from '../controllers/budgetController.js';
-import authMiddleware from '../middleware/authMiddleware.js';
+import auth from '../middleware/authMiddleware.js';
+import {
+  addBudget,
+  getBudgets,
+  updateBudget,
+  deleteBudget
+} from '../controllers/budgetController.js';
 
 const router = express.Router();
-router.use(authMiddleware);
-router.route('/').post(setBudget).get(getBudgets);
+
+router.post('/', auth, addBudget);
+router.get('/', auth, getBudgets);
+router.put('/:id', auth, updateBudget);
+router.delete('/:id', auth, deleteBudget);
 
 export default router;
