@@ -5,7 +5,7 @@ import {
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../contexts/AppProvider";
 
-export default function Layout() {
+export default function UserLayout() {
   const { setSearchKeys } = useAppContext();
   const navigate = useNavigate();
   const location = useLocation();

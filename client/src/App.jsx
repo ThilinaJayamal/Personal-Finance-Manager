@@ -1,23 +1,32 @@
-import React, { useState } from 'react'
-import Layout from './components/Layout'
+import React from 'react'
+import UserLayout from './pages/UserLayout'
+import Login from './pages/Login'
 import Dashboard from './sections/Dashboard'
 import AddTransaction from './Sections/AddTransaction'
 import Trasactions from './sections/Transactions'
 import Budgets from './sections/Budgets'
 import SetBudgets from './sections/SetBudgets'
+import ProtectedRoute from './components/ProtectedRoute';
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
   const [budget,setBudget] = useState('');
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/add-transactions' element={<AddTransaction />} />
-        <Route path='/budgets' element={<Budgets budget={budget}/>} />
-        <Route path='/set-budgets' element={<SetBudgets/>} />
-        <Route path='/transactions' element={<Trasactions/>} />
+
+      <Route path='login' element={<Login />} />
+
+      {/* Protected routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<UserLayout />}>
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/add-transactions' element={<AddTransaction />} />
+          <Route path='/budgets' element={<Budgets budget={budget}/>} />
+          <Route path='/set-budgets' element={<SetBudgets />} />
+          <Route path='/transactions' element={<Trasactions />} />
+        </Route>
       </Route>
+
     </Routes>
   )
 }

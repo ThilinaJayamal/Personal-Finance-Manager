@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 const AppContext = createContext();
 
 function AppProvider({ children }) {
+    const [user,setUser] = useState(3);
     const [searchKeys, setSearchKeys] = useState("");
     const navigate = useNavigate();
 
     return (
-        <AppContext.Provider value={{ setSearchKeys, searchKeys }}>
+        <AppContext.Provider value={{ setSearchKeys, searchKeys,user }}>
             {children}
         </AppContext.Provider>
     )
