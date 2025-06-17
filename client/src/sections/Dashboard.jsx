@@ -20,13 +20,13 @@ function Dashboard() {
       </div>
 
       <div className='grid grid-cols-1 xl:grid-cols-2 mt-4 gap-4'>
-        <div className='bg-white rounded-xl p-6'>
+        <div className='bg-white rounded-xl p-6 border border-gray-200'>
           <h3 className='font-semibold text-2xl'>Income vs Expenses</h3>
           <div className='mt-12'>
             <SimpleLineChart data={yearData} />
           </div>
         </div>
-        <div className='bg-white rounded-xl p-6'>
+        <div className='bg-white rounded-xl p-6 border border-gray-200'>
           <h3 className='font-semibold text-2xl'>Expense Categories</h3>
           <div>
             <PieChart data={statistic?.categoryBreakdown} />

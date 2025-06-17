@@ -1,13 +1,4 @@
 import React from "react";
-import { Utensils, Car, ShoppingBag, Theater, Bolt } from "lucide-react";
-
-const iconMap = {
-  "Food & Dining": <Utensils size={24} color="#000" />,
-  "Transportation": <Car size={24} color="#000" />,
-  "Shopping": <ShoppingBag size={24} color="#000" />,
-  "Entertainment": <Theater size={24} color="#000" />,
-  "Bills & Utilities": <Bolt size={24} color="#000" />,
-};
 
 const BudgetCategoryItem = ({ name, spent, budget }) => {
   const percentage = ((spent / budget) * 100).toFixed(1);
@@ -21,11 +12,11 @@ const BudgetCategoryItem = ({ name, spent, budget }) => {
 
   return (
     <div className="px-4 py-5 border border-gray-200 rounded-xl bg-white">
-      <div className="flex items-center mb-1 justify-between gap-4">
+      <div className="flex items-center mb-1 justify-between gap-4 space-y-2">
         <div>
           <div>
             <div className="font-semibold text-lg">{name}</div>
-            <div className="text-gray-600">${spent} of ${budget}</div>
+            <div className="text-gray-600">Rs.{spent} of Rs.{budget}</div>
           </div>
         </div>
 
@@ -35,9 +26,9 @@ const BudgetCategoryItem = ({ name, spent, budget }) => {
           </div>
           <div className="text-sm">
             {remaining >= 0 ? (
-              <span className="text-green-600">${remaining} left</span>
+              <span className="text-green-600">Rs.{remaining} left</span>
             ) : (
-              <span className="text-red-500">Over budget by ${Math.abs(remaining)}</span>
+              <span className="text-red-500">Over budget by Rs.{Math.abs(remaining)}</span>
             )}
           </div>
         </div>

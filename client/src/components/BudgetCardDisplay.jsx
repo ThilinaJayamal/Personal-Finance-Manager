@@ -3,7 +3,7 @@ import { SquarePen, X, Save } from 'lucide-react';
 import { useAppContext } from '../contexts/AppProvider';
 
 function BudgetCardDisplay({ item }) {
-    const { updateBudget, deleteBudget } = useAppContext();
+    const { updateBudget, deleteBudget,getBudgetUsage,getBudgets } = useAppContext();
     const [isEditing, setIsEditing] = useState(false);
     const [editedAmount, setEditedAmount] = useState(item.amount);
 
@@ -16,6 +16,7 @@ function BudgetCardDisplay({ item }) {
                     amount: editedAmount
                 }
             );
+            await getBudgetUsage();
             setIsEditing(false);
         } catch (error) {
             return null;
@@ -25,6 +26,8 @@ function BudgetCardDisplay({ item }) {
     const handleDelete = async () => {
         try {
             await deleteBudget(item._id);
+            await getBudgets();
+            await getBudgetUsage();
         } catch (error) {
             return null
         }
@@ -34,7 +37,7 @@ function BudgetCardDisplay({ item }) {
         <div className='bg-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center px-5 py-4 rounded-xl'>
   
             <div>
-                <p className='font-semibold'>{item.category}</p>
+                <p className='font-semibold text-xl'>{item.category}</p>
                 <p className='text-sm text-black/70'>Monthly Budget</p>
             </div>
 

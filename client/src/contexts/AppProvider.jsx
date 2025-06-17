@@ -5,32 +5,34 @@ import toast from 'react-hot-toast';
 
 const AppContext = createContext();
 
+axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.withCredentials = true;
+
+const defaultExpenseCategories = [
+    'Food & Dining',
+    'Transportation',
+    'Shopping',
+    'Entertainment',
+    'Bills & Utilities',
+    'Healthcare',
+    'Travel',
+    'Other',
+];
+
+
 function AppProvider({ children }) {
     const [user, setUser] = useState('');
     const [searchKeys, setSearchKeys] = useState('');
     const [budgets, setBudgets] = useState([]);
     const [statistic, setStatistic] = useState('');
     const [yearData, setYearData] = useState([]);
+    const [budgetUsage, setBudgetUsage] = useState([]);
 
-    const [expenseCategory, setExpenseCategory] = useState(
-        [
-            'Food & Dining',
-            'Transportation',
-            'Shopping',
-            'Entertainment',
-            'Bills & Utilities',
-            'Healthcare',
-            'Travel',
-            'Other',
-        ]
-    )
+    const [expenseCategory, setExpenseCategory] = useState(defaultExpenseCategories);
 
     const navigate = useNavigate();
 
-    axios.defaults.baseURL = 'http://localhost:5000';
-    axios.defaults.withCredentials = true;
-
-    // Auth APIs
+    // ---------- Auth ----------
     const register = async (formData) => {
         try {
             const { data } = await axios.post('/api/auth/register', formData);
@@ -49,7 +51,6 @@ function AppProvider({ children }) {
             toast.success('Logged in successfully');
             navigate('/');
         } catch (err) {
-            console.log(err)
             toast.error(err.response?.data?.message || 'Login failed');
         }
     };
@@ -60,19 +61,29 @@ function AppProvider({ children }) {
             setUser(null);
             toast.success('Logged out');
             navigate('/login');
-        } catch (err) {
+        } catch {
             toast.error('Logout failed');
         }
     };
 
+    const loadUser = async () => {
+        try {
+            const res = await axios.get('/api/auth/me');
+            setUser(res.data);
+            navigate('/');
+        } catch {
+            setUser(null);
+            navigate('/login');
+        }
+    };
 
-    // Transaction APIs
+    // ---------- Transactions ----------
     const addTransaction = async (transaction) => {
         try {
             await axios.post('/api/transactions', transaction);
             await fetchMonthlySummary();
             toast.success('Transaction added');
-        } catch (err) {
+        } catch {
             toast.error('Add transaction failed');
         }
     };
@@ -81,8 +92,7 @@ function AppProvider({ children }) {
         try {
             const { data } = await axios.get('/api/transactions');
             return data;
-        } catch (err) {
-            toast.error('Fetch transactions failed');
+        } catch {
             return [];
         }
     };
@@ -91,7 +101,7 @@ function AppProvider({ children }) {
         try {
             await axios.put(`/api/transactions/${id}`, updates);
             toast.success('Transaction updated');
-        } catch (err) {
+        } catch {
             toast.error('Update transaction failed');
         }
     };
@@ -100,17 +110,38 @@ function AppProvider({ children }) {
         try {
             await axios.delete(`/api/transactions/${id}`);
             toast.success('Transaction deleted');
-        } catch (err) {
+        } catch {
             toast.error('Delete transaction failed');
         }
     };
 
-    // Budget APIs
+    const fetchMonthlySummary = async () => {
+        try {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const { data } = await axios.get(`/api/transactions/summary/${year}/${month}`);
+            setStatistic(data);
+        } catch (error) {
+            return null;
+        }
+    };
+
+    const fetchSummary = async () => {
+        try {
+            const { data } = await axios.get('/api/transactions/monthly-summary');
+            setYearData(data);
+        } catch {
+            return null;
+        }
+    };
+
+    // ---------- Budgets ----------
     const addBudget = async (budget) => {
         try {
             await axios.post('/api/budgets', budget);
             toast.success('Budget added');
-        } catch (err) {
+        } catch {
             toast.error('Add budget failed');
         }
     };
@@ -121,11 +152,12 @@ function AppProvider({ children }) {
             setBudgets(data || []);
 
             if (data) {
-                const tempItems = data.map((item) => item.category);
-                setExpenseCategory(expenseCategory.filter((item) => !tempItems.includes(item)));
+                const used = data.map((item) => item.category);
+                const available = defaultExpenseCategories.filter((cat) => !used.includes(cat));
+                setExpenseCategory(available);
             }
-        } catch (err) {
-            return [];
+        } catch {
+            return null;
         }
     };
 
@@ -135,7 +167,7 @@ function AppProvider({ children }) {
             await axios.put(`/api/budgets/${id}`, updates);
             await getBudgets();
             toast.success('Budget updated');
-        } catch (err) {
+        } catch {
             toast.error('Update budget failed');
         }
     };
@@ -145,52 +177,30 @@ function AppProvider({ children }) {
             await axios.delete(`/api/budgets/${id}`);
             await getBudgets();
             toast.success('Budget deleted');
-        } catch (err) {
+        } catch {
             toast.error('Delete budget failed');
         }
     };
 
-    const fetchMonthlySummary = async () => {
+    const getBudgetUsage = async () => {
         try {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            const { data } = await axios.get(
-                `/api/transactions/summary/${year}/${month}`
-            );
-            setStatistic(data)
-        } catch (error) {
-            console.error('Error fetching monthly summary:', error.response?.data || error.message);
+            const { data } = await axios.get('/api/budgets/status');
+            setBudgetUsage(data);
+        } catch {
             return null;
         }
     };
 
-    const fetchSummary = async () => {
-        try {
-            const {data} = await axios.get('/api/transactions/monthly-summary');
-            setYearData(data);
-        } catch (err) {
-            return null
-        }
-    }
-
-    const loadUser = async () => {
-        try {
-            const res = await axios.get('/api/auth/me');
-            setUser(res.data);
-            navigate('/');
-        } catch (err) {
-            setUser(null);
-            navigate('/login')
-        }
-    };
+    useEffect(() => {
+        loadUser()
+    }, []);
 
     useEffect(() => {
-        loadUser();
-        getBudgets();
-        fetchMonthlySummary();
-        fetchSummary();
-    }, []);
+        getBudgets(),
+            fetchMonthlySummary(),
+            fetchSummary(),
+            getBudgetUsage();
+    }, [user])
 
     return (
         <AppContext.Provider
@@ -215,6 +225,8 @@ function AppProvider({ children }) {
                 getBudgets,
                 updateBudget,
                 deleteBudget,
+                budgetUsage,
+                getBudgetUsage
             }}
         >
             {children}

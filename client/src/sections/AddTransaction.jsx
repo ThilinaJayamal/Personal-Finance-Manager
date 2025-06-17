@@ -3,7 +3,7 @@ import { useAppContext } from '../contexts/AppProvider';
 import toast from 'react-hot-toast';
 
 function AddTransaction() {
-  const { addTransaction } = useAppContext();
+  const { addTransaction,getBudgetUsage } = useAppContext();
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
@@ -39,6 +39,7 @@ function AddTransaction() {
         type,
         description
       });
+      await getBudgetUsage();
       setCategory('');
       setAmount('');
       setDescription('');
@@ -52,7 +53,7 @@ function AddTransaction() {
       {/* Set Budget Section */}
       <div className='rounded-xl bg-white py-6 px-6 border border-gray-200'>
         <h1 className='text-xl font-semibold mb-6'>
-          <span className='text-blue-500'>+</span> Set Monthly Budget
+          <span className='text-blue-500'>+</span> Add Transactions
         </h1>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>

@@ -15,7 +15,7 @@ const monthlyBudgets = [
 ];
 
 function SetBudgets() {
-  const { addBudget, budgets, getBudgets, expenseCategory } = useAppContext();
+  const { addBudget, budgets, getBudgets, expenseCategory, getBudgetUsage } = useAppContext();
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -30,6 +30,7 @@ function SetBudgets() {
         amount
       });
       await getBudgets();
+      await getBudgetUsage();
       setCategory('');
       setAmount('');
     } catch (error) {
@@ -98,11 +99,11 @@ function SetBudgets() {
 
       {/* Monthly Budgets List */}
       <div className='rounded-xl bg-white py-6 px-6 border border-gray-200 mt-12'>
-        <h3 className='text-xl font-semibold'>Monthly Budgets</h3>
+        <h3 className='text-2xl font-semibold'>Monthly Budgets</h3>
 
         <div className='flex flex-col gap-4 mt-6'>
-          {budgets.map((item) => (
-            <BudgetCardDisplay key={item.id} item={item} />
+          {budgets.map((item, index) => (
+            <BudgetCardDisplay key={index} item={item} />
           ))}
         </div>
       </div>
