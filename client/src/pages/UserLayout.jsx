@@ -66,7 +66,7 @@ export default function UserLayout() {
             onClick={() => navigate("/")}
             className="text-xl text-green-600 font-bold flex items-center gap-2 cursor-pointer"
           >
-            <Banknote size={30} /> CashFlowX
+            <img src="./logo.png" alt="" className="size-8"/> CashFlowX
           </span>
           <button
             ref={toggleRef}
