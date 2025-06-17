@@ -20,12 +20,26 @@ const BudgetCategoryItem = ({ name, spent, budget }) => {
   };
 
   return (
-    <div className="p-3">
-      <div className="flex items-center mb-1">
-        <div className="mr-3">{iconMap[name]}</div>
+    <div className="px-4 py-5 border border-gray-200 rounded-xl bg-white">
+      <div className="flex items-center mb-1 justify-between gap-4">
         <div>
-          <div className="font-semibold text-lg">{name}</div>
-          <div className="text-gray-600">${spent} of ${budget}</div>
+          <div>
+            <div className="font-semibold text-lg">{name}</div>
+            <div className="text-gray-600">${spent} of ${budget}</div>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-end">
+          <div className={`${getPercentageColor()} font-semibold`}>
+            {percentage}%
+          </div>
+          <div className="text-sm">
+            {remaining >= 0 ? (
+              <span className="text-green-600">${remaining} left</span>
+            ) : (
+              <span className="text-red-500">Over budget by ${Math.abs(remaining)}</span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -36,18 +50,6 @@ const BudgetCategoryItem = ({ name, spent, budget }) => {
         />
       </div>
 
-      <div className="flex justify-between items-center">
-        <div className={`${getPercentageColor()} font-semibold`}>
-          {percentage}%
-        </div>
-        <div className="text-sm">
-          {remaining >= 0 ? (
-            <span className="text-green-600">${remaining} left</span>
-          ) : (
-            <span className="text-red-500">Over budget by ${Math.abs(remaining)}</span>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

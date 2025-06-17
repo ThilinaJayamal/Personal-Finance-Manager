@@ -9,7 +9,8 @@ function AppProvider({ children }) {
     const [user, setUser] = useState('');
     const [searchKeys, setSearchKeys] = useState('');
     const [budgets, setBudgets] = useState([]);
-    const [statistic,setStatistic] = useState('')
+    const [statistic, setStatistic] = useState('');
+    const [yearData, setYearData] = useState([]);
 
     const [expenseCategory, setExpenseCategory] = useState(
         [
@@ -154,17 +155,24 @@ function AppProvider({ children }) {
             const now = new Date();
             const year = now.getFullYear();
             const month = now.getMonth() + 1;
-            const {data} = await axios.get(
-                `http://localhost:5000/api/transactions/summary/${year}/${month}`
+            const { data } = await axios.get(
+                `/api/transactions/summary/${year}/${month}`
             );
-            console.log(data)
-
             setStatistic(data)
         } catch (error) {
             console.error('Error fetching monthly summary:', error.response?.data || error.message);
             return null;
         }
     };
+
+    const fetchSummary = async () => {
+        try {
+            const {data} = await axios.get('/api/transactions/monthly-summary');
+            setYearData(data);
+        } catch (err) {
+            return null
+        }
+    }
 
     const loadUser = async () => {
         try {
@@ -181,6 +189,7 @@ function AppProvider({ children }) {
         loadUser();
         getBudgets();
         fetchMonthlySummary();
+        fetchSummary();
     }, []);
 
     return (
@@ -188,6 +197,7 @@ function AppProvider({ children }) {
             value={{
                 user,
                 navigate,
+                yearData,
                 setUser,
                 searchKeys,
                 setSearchKeys,

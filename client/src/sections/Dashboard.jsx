@@ -5,7 +5,7 @@ import PieChart from '../components/PieChart'
 import { useAppContext } from '../contexts/AppProvider'
 
 function Dashboard() {
-  const { statistic } = useAppContext();
+  const { statistic, yearData } = useAppContext();
   return (
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
@@ -23,13 +23,13 @@ function Dashboard() {
         <div className='bg-white rounded-xl p-6'>
           <h3 className='font-semibold text-2xl'>Income vs Expenses</h3>
           <div className='mt-12'>
-            <SimpleLineChart />
+            <SimpleLineChart data={yearData} />
           </div>
         </div>
         <div className='bg-white rounded-xl p-6'>
           <h3 className='font-semibold text-2xl'>Expense Categories</h3>
           <div>
-            <PieChart />
+            <PieChart data={statistic?.categoryBreakdown} />
           </div>
         </div>
       </div>
