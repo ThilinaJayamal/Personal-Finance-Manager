@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://personal-finance-manager-backend-one.vercel.app'
+    'https://personal-finance-manager-nine.vercel.app/'
   ],
   credentials: true
 }));
