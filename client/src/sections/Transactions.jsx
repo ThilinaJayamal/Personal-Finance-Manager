@@ -36,7 +36,7 @@ function TransactionHistory() {
   }, [search, typeFilter, sortBy, transactions]);
 
   return (
-    <div className="w-full p-4 md:p-8">
+    <div className="w-full">
 
       <div className="rounded-xl bg-white p-6 border border-gray-200 mb-10">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
