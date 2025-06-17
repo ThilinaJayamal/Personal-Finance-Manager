@@ -6,7 +6,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppProvider";
 
 export default function UserLayout() {
-  const { setSearchKeys, logout, navigate, user } = useAppContext();
+  const { setSearch, logout, navigate, user } = useAppContext();
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -114,7 +114,7 @@ export default function UserLayout() {
                 placeholder="Search transactions..."
                 className="w-full h-full text-sm text-gray-600 outline-none"
                 onChange={(e) => {
-                  setSearchKeys(e.target.value);
+                  setSearch(e.target.value);
                   navigate("/transactions");
                 }}
               />

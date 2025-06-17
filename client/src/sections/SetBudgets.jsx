@@ -3,16 +3,6 @@ import BudgetCardDisplay from '../components/BudgetCardDisplay';
 import { useAppContext } from '../contexts/AppProvider';
 import toast from 'react-hot-toast';
 
-const monthlyBudgets = [
-  { id: 1, category: 'Food & Dining', amount: 250.0, createdAt: '2025-06-01T10:15:00Z' },
-  { id: 2, category: 'Transportation', amount: 100.0, createdAt: '2025-06-01T10:16:00Z' },
-  { id: 3, category: 'Shopping', amount: 150.0, createdAt: '2025-06-01T10:17:00Z' },
-  { id: 4, category: 'Entertainment', amount: 80.0, createdAt: '2025-06-01T10:18:00Z' },
-  { id: 5, category: 'Bills & Utilities', amount: 200.0, createdAt: '2025-06-01T10:19:00Z' },
-  { id: 6, category: 'Healthcare', amount: 120.0, createdAt: '2025-06-01T10:20:00Z' },
-  { id: 7, category: 'Travel', amount: 300.0, createdAt: '2025-06-01T10:21:00Z' },
-  { id: 8, category: 'Other', amount: 50.0, createdAt: '2025-06-01T10:22:00Z' },
-];
 
 function SetBudgets() {
   const { addBudget, budgets, getBudgets, expenseCategory, getBudgetUsage } = useAppContext();
@@ -40,14 +30,12 @@ function SetBudgets() {
 
   return (
     <div className='w-full'>
-      {/* Set Budget Section */}
       <div className='rounded-xl bg-white py-6 px-6 border border-gray-200'>
         <h1 className='text-xl font-semibold mb-6'>
           <span className='text-blue-500'>+</span> Set Monthly Budget
         </h1>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
-          {/* Category */}
           <div>
             <label htmlFor='category' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Category
@@ -67,7 +55,6 @@ function SetBudgets() {
             </select>
           </div>
 
-          {/* Budget Input */}
           <div>
             <label htmlFor='budget' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Monthly Budget
@@ -85,7 +72,6 @@ function SetBudgets() {
             </div>
           </div>
 
-          {/* Button */}
           <div className='flex items-end'>
             <button
               onClick={handleSubmit}
@@ -97,7 +83,6 @@ function SetBudgets() {
         </div>
       </div>
 
-      {/* Monthly Budgets List */}
       <div className='rounded-xl bg-white py-6 px-6 border border-gray-200 mt-12'>
         <h3 className='text-2xl font-semibold'>Monthly Budgets</h3>
 

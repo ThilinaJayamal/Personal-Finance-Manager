@@ -22,11 +22,12 @@ const defaultExpenseCategories = [
 
 function AppProvider({ children }) {
     const [user, setUser] = useState('');
-    const [searchKeys, setSearchKeys] = useState('');
+    const [search, setSearch] = useState('');
     const [budgets, setBudgets] = useState([]);
     const [statistic, setStatistic] = useState('');
     const [yearData, setYearData] = useState([]);
     const [budgetUsage, setBudgetUsage] = useState([]);
+    const [transactions, setTransactions] = useState([]);
 
     const [expenseCategory, setExpenseCategory] = useState(defaultExpenseCategories);
 
@@ -82,6 +83,7 @@ function AppProvider({ children }) {
         try {
             await axios.post('/api/transactions', transaction);
             await fetchMonthlySummary();
+            await getTransactions();
             toast.success('Transaction added');
         } catch {
             toast.error('Add transaction failed');
@@ -91,20 +93,12 @@ function AppProvider({ children }) {
     const getTransactions = async () => {
         try {
             const { data } = await axios.get('/api/transactions');
-            return data;
+            setTransactions(data);
         } catch {
             return [];
         }
     };
 
-    const updateTransaction = async (id, updates) => {
-        try {
-            await axios.put(`/api/transactions/${id}`, updates);
-            toast.success('Transaction updated');
-        } catch {
-            toast.error('Update transaction failed');
-        }
-    };
 
     const deleteTransaction = async (id) => {
         try {
@@ -200,6 +194,7 @@ function AppProvider({ children }) {
             fetchMonthlySummary(),
             fetchSummary(),
             getBudgetUsage();
+        getTransactions();
     }, [user])
 
     return (
@@ -209,15 +204,12 @@ function AppProvider({ children }) {
                 navigate,
                 yearData,
                 setUser,
-                searchKeys,
-                setSearchKeys,
                 register,
                 login,
                 logout,
                 statistic,
                 addTransaction,
                 getTransactions,
-                updateTransaction,
                 deleteTransaction,
                 addBudget,
                 budgets,
@@ -226,7 +218,10 @@ function AppProvider({ children }) {
                 updateBudget,
                 deleteBudget,
                 budgetUsage,
-                getBudgetUsage
+                getBudgetUsage,
+                transactions,
+                search,
+                setSearch
             }}
         >
             {children}

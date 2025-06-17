@@ -50,14 +50,12 @@ function AddTransaction() {
 
   return (
     <div className='w-full'>
-      {/* Set Budget Section */}
       <div className='rounded-xl bg-white py-6 px-6 border border-gray-200'>
         <h1 className='text-xl font-semibold mb-6'>
           <span className='text-blue-500'>+</span> Add Transactions
         </h1>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
-          {/* Category */}
           <div>
             <label htmlFor='category' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Type
@@ -76,8 +74,6 @@ function AddTransaction() {
             </select>
           </div>
 
-
-          {/* Budget Input */}
           <div>
             <label htmlFor='budget' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Amount
@@ -94,8 +90,6 @@ function AddTransaction() {
             </div>
           </div>
 
-
-          {/* Category */}
           <div>
             <label htmlFor='category' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Category
@@ -130,7 +124,6 @@ function AddTransaction() {
             />
           </div>
 
-          {/* Button */}
           <div className='flex items-end'>
             <button
               onClick={handleSubmit}

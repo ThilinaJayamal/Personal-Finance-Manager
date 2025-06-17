@@ -1,7 +1,7 @@
 import React from "react";
-import { PiggyBank, Wallet, CheckCircle } from "lucide-react";
 import BudgetCategoryItem from "../components/BudgetCategoryItem";
 import { useAppContext } from "../contexts/AppProvider";
+import MoneyCard from "../components/MoneyCard";
 
 function Budgets() {
 
@@ -9,36 +9,11 @@ function Budgets() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="border border-gray-200 rounded-lg bg-white shadow p-4">
-          {/* Total Budget */}
-          <div className="flex flex-row justify-between">
-            <h5 className="text-sm text-gray-500 font-bold">Total Budget</h5>
-            <PiggyBank className="text-blue-600 w-4 h-4" />
-          </div>
-          <div className="mt-2 text-2xl font-bold">Rs {budgetUsage.total.totalBudget}</div>
-          <div className="text-xs text-gray-400">Monthly allocation</div>
-        </div>
-
-        <div className="border border-gray-200 rounded-lg bg-white shadow p-4">
-          {/* Total Spent */}
-          <div className="flex flex-row justify-between">
-            <h5 className="text-sm text-gray-700 font-bold">Total Spent</h5>
-            <Wallet className="text-red-600 w-4 h-4" />
-          </div>
-          <div className="mt-2 text-2xl font-bold">Rs {budgetUsage.total.totalSpent}</div>
-          <div className="text-xs text-gray-400">This month</div>
-        </div>
-
-        <div className="border border-gray-200 rounded-lg bg-white shadow p-4">
-          {/* Remaining */}
-          <div className="flex flex-row justify-between">
-            <h5 className="text-sm text-gray-500 font-bold">Remaining</h5>
-            <CheckCircle className="text-green-400 w-4 h-4" />
-          </div>
-          <div className="mt-2 text-green-400 text-2xl font-bold">Rs {budgetUsage.total.remaining}</div>
-          <div className="text-xs text-gray-400">Available</div>
-        </div>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <MoneyCard title={"Total Budget"} amount={budgetUsage.total.totalBudget} icon={"$"} style={"text-green-600"} />
+        <MoneyCard title={"Total Spent"} amount={budgetUsage.total.totalSpent} icon={"+"} style={"text-blue-600"} />
+        <MoneyCard title={"Remaining"} textColor={budgetUsage.total.totalSpent > 0 ? "text-green-500" : "text-red-500"}
+          amount={budgetUsage.total.remaining} icon={"-"} style={"text-red-600"} />
       </div>
 
       <div className="my-12 grid grid-cols-1 gap-4">
@@ -46,9 +21,7 @@ function Budgets() {
         {budgetUsage.report.map((item, index) => (
           <BudgetCategoryItem
             key={index}
-            name={item.category}
-            spent={item.spent}
-            budget={item.allocated}
+            item={item}
           />
         ))}
       </div>
