@@ -58,12 +58,12 @@ function AppProvider({ children }) {
 
     const logout = async () => {
         try {
-            await axios.post('/api/auth/logout');
+            const { data } = await axios.post('/api/auth/logout');
             setUser(null);
-            toast.success('Logged out');
+            toast.success(data?.message);
             navigate('/login');
-        } catch {
-            toast.error('Logout failed');
+        } catch (err) {
+            toast.error(err.response.data.message);
         }
     };
 
