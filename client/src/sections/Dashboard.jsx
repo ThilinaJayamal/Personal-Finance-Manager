@@ -17,7 +17,8 @@ function Dashboard() {
         
         <div className='grid xl:grid-cols-2 grid-cols-1 gap-4'>
           <MoneyCard title={"Monthly Expenses"} amount={statistic.expense} icon={"-"} style={"text-red-600"} />
-          <MoneyCard title={"Savings Rate"} amount={statistic.savingRate + "%"} textColor={statistic.savingRate > 0 ? "text-green-500" : "text-red-500"}
+          <MoneyCard title={"Savings Rate"} isPrice={false}
+          amount={statistic.savingRate + "%"} textColor={statistic.savingRate > 0 ? "text-green-500" : "text-red-500"}
             icon={"%"} color={""} style={"text-black"} />
         </div>
       </div>
