@@ -3,11 +3,12 @@ import { useAppContext } from '../contexts/AppProvider';
 import toast from 'react-hot-toast';
 
 function AddTransaction() {
-  const { addTransaction,getBudgetUsage } = useAppContext();
+  const { addTransaction, getBudgetUsage } = useAppContext();
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState('Expense');
+  const [loading, setLoading] = useState(false); // <-- loading state
 
   const expenseTypes = [
     'Food & Dining',
@@ -27,11 +28,13 @@ function AddTransaction() {
     "Gift",
     "Other"
   ];
+
   const handleSubmit = async () => {
     if (!category || !amount || !type) {
-      toast.error('Please select a type, category and enter a amount.');
+      toast.error('Please select a type, category and enter an amount.');
       return;
     }
+    setLoading(true); // start loading
     try {
       await addTransaction({
         category,
@@ -45,6 +48,8 @@ function AddTransaction() {
       setDescription('');
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false); // stop loading no matter what
     }
   };
 
@@ -57,14 +62,15 @@ function AddTransaction() {
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
           <div>
-            <label htmlFor='category' className='block text-sm font-medium text-gray-700 mb-2.5'>
+            <label htmlFor='type' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Type
             </label>
             <select
-              id='category'
+              id='type'
               value={type}
               onChange={(e) => setType(e.target.value)}
               className='pl-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+              disabled={loading} // disable during loading
             >
               {['Expense', 'Income'].map((item, index) => (
                 <option key={index} value={item}>
@@ -75,7 +81,7 @@ function AddTransaction() {
           </div>
 
           <div>
-            <label htmlFor='budget' className='block text-sm font-medium text-gray-700 mb-2.5'>
+            <label htmlFor='amount' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Amount
             </label>
             <div className='relative'>
@@ -86,6 +92,7 @@ function AddTransaction() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 className='pl-10 pr-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+                disabled={loading} // disable during loading
               />
             </div>
           </div>
@@ -99,6 +106,7 @@ function AddTransaction() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className='pl-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+              disabled={loading} // disable during loading
             >
               <option value=''>Select category...</option>
               {
@@ -107,12 +115,13 @@ function AddTransaction() {
                     <option key={index} value={item}>
                       {item}
                     </option>
-                  ))}
+                  ))
+              }
             </select>
           </div>
 
           <div>
-            <label htmlFor='budget' className='block text-sm font-medium text-gray-700 mb-2.5'>
+            <label htmlFor='description' className='block text-sm font-medium text-gray-700 mb-2.5'>
               Description
             </label>
             <input
@@ -121,16 +130,21 @@ function AddTransaction() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className='px-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+              disabled={loading} // disable during loading
             />
           </div>
 
           <div className='flex items-end'>
             <button
               onClick={handleSubmit}
-              className={`w-full ${type === "Income" ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"}
-               text-white font-semibold py-2.5 rounded-xl transition cursor-pointer`}
+              disabled={loading} // disable button during loading
+              className={`w-full ${
+                type === "Income"
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-blue-600 hover:bg-blue-700"
+              } text-white font-semibold py-2.5 rounded-xl transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              + {type === "Income" ? "Add Income" : "Add Expense"}
+              {loading ? 'Loading...' : `+ ${type === "Income" ? "Add Income" : "Add Expense"}`}
             </button>
           </div>
         </div>
@@ -139,4 +153,4 @@ function AddTransaction() {
   );
 }
 
-export default AddTransaction
+export default AddTransaction;

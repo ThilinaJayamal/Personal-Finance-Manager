@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  Menu, X, Home, History, BadgeDollarSign, Banknote, Goal, UserCircle, SlidersVertical
+  Menu, X, Home, History, BadgeDollarSign, Goal, UserCircle, SlidersVertical
 } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppProvider";
+import SkeletonLoader from "../components/SkeletonLoader";
 
 export default function UserLayout() {
-  const { setSearch, logout, navigate, user } = useAppContext();
+  const { setSearch, logout, navigate, user, loading } = useAppContext();
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +67,7 @@ export default function UserLayout() {
             onClick={() => navigate("/")}
             className="text-xl text-green-600 font-bold flex items-center gap-2 cursor-pointer"
           >
-            <img src="./logo.png" alt="" className="size-8"/> CashFlowX
+            <img src="./logo.png" alt="" className="size-8" /> CashFlowX
           </span>
           <button
             ref={toggleRef}
@@ -143,7 +144,7 @@ export default function UserLayout() {
 
         {/* Scrollable Page Content */}
         <main className="p-6 bg-gray-50 flex-1 overflow-y-auto">
-          <Outlet />
+          {loading ? <SkeletonLoader /> : <Outlet />}
         </main>
       </div>
     </div>

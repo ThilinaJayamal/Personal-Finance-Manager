@@ -3,17 +3,18 @@ import BudgetCardDisplay from '../components/BudgetCardDisplay';
 import { useAppContext } from '../contexts/AppProvider';
 import toast from 'react-hot-toast';
 
-
 function SetBudgets() {
   const { addBudget, budgets, getBudgets, expenseCategory, getBudgetUsage } = useAppContext();
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
+  const [loading, setLoading] = useState(false); // <-- Loading state
 
   const handleSubmit = async () => {
     if (!category || !amount) {
       toast.error('Please select a category and enter a budget.');
       return;
     }
+    setLoading(true); // start loading
     try {
       await addBudget({
         category,
@@ -24,7 +25,9 @@ function SetBudgets() {
       setCategory('');
       setAmount('');
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    } finally {
+      setLoading(false); // stop loading no matter what
     }
   };
 
@@ -45,6 +48,7 @@ function SetBudgets() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className='pl-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+              disabled={loading} // disable while loading
             >
               <option value=''>Select category...</option>
               {expenseCategory.map((item, index) => (
@@ -68,6 +72,7 @@ function SetBudgets() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 className='pl-10 pr-3 py-2.5 border border-gray-300 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+                disabled={loading} // disable while loading
               />
             </div>
           </div>
@@ -75,9 +80,10 @@ function SetBudgets() {
           <div className='flex items-end'>
             <button
               onClick={handleSubmit}
-              className='w-full bg-blue-600 text-white font-semibold py-2.5 rounded-xl hover:bg-blue-700 transition'
+              className='w-full bg-blue-600 text-white font-semibold py-2.5 rounded-xl hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed'
+              disabled={loading} // disable button while loading
             >
-              + Set Budget
+              {loading ? 'Loading...' : '+ Set Budget'}
             </button>
           </div>
         </div>

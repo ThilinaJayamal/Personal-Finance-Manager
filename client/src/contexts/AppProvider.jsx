@@ -21,6 +21,7 @@ const defaultExpenseCategories = [
 
 
 function AppProvider({ children }) {
+    const [loading, setLoading] = useState(true);
     const [user, setUser] = useState('');
     const [search, setSearch] = useState('');
     const [budgets, setBudgets] = useState([]);
@@ -190,11 +191,22 @@ function AppProvider({ children }) {
     }, []);
 
     useEffect(() => {
-        getBudgets(),
-            fetchMonthlySummary(),
-            fetchSummary(),
-            getBudgetUsage();
-        getTransactions();
+        const fetchData = async () => {
+            try {
+                //setLoading(true);
+                await getBudgets()
+                await fetchMonthlySummary()
+                await fetchSummary()
+                await getBudgetUsage()
+                await getTransactions()
+                setLoading(false)
+            } catch (error) {
+                //setLoading(false);
+                return null;
+            }
+        }
+
+        fetchData();
     }, [user])
 
     return (
@@ -206,6 +218,7 @@ function AppProvider({ children }) {
                 setUser,
                 register,
                 login,
+                loading,
                 logout,
                 statistic,
                 addTransaction,
