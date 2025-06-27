@@ -37,7 +37,7 @@ A modern, user-friendly web application designed to help individuals manage thei
 
 ---
 
-## 👥 Team Members
+## Team Members
 
 - Thilina Jayamal ([@ThilinaJayamal](https://github.com/ThilinaJayamal))
 - Yasiru Rahul [@RahulDivyanja](https://github.com/RahulDivyanja)
