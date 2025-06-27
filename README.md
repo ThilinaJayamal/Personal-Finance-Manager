@@ -33,7 +33,7 @@ A modern, user-friendly web application designed to help individuals manage thei
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT
-- **Deployment**: Vercel
+- **Deployment**: Vercel (Backend + Frontend)
 
 ---
 
