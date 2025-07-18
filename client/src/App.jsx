@@ -27,10 +27,8 @@ function App() {
             <Route path='/transactions' element={<Trasactions />} />
           </Route>
         </Route>
-        
       </Routes>
-
-      {/** Notification */}
+      {/** Toast notifications */}
       <Toaster />
     </>
   )
