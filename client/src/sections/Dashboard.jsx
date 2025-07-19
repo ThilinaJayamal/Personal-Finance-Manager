@@ -11,14 +11,14 @@ function Dashboard() {
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
         <div className='grid xl:grid-cols-2 grid-cols-1 gap-4'>
           <MoneyCard title={"Total Balance"} amount={statistic.balance}
-            icon={"$"} style={"text-green-600"} textColor={statistic.balance > 0 ? "text-green-500" : "text-red-500"} />
+            icon={"$"} style={"text-green-600"} textColor={statistic.balance >= 0 ? "text-green-500" : "text-red-500"} />
           <MoneyCard title={"Monthly Income"} amount={statistic.income} icon={"+"} style={"text-blue-500"} />
         </div>
         
         <div className='grid xl:grid-cols-2 grid-cols-1 gap-4'>
-          <MoneyCard title={"Monthly Expenses"} amount={statistic.expense} icon={"-"} style={"text-red-600"} />
+          <MoneyCard title={"Monthly Expenses"} amount={statistic.expense} icon={"-"} style={"text-red-600"} textColor="text-red-600" />
           <MoneyCard title={"Savings Rate"} isPrice={false}
-          amount={statistic.savingRate + "%"} textColor={statistic.savingRate > 0 ? "text-green-500" : "text-red-500"}
+          amount={statistic.savingRate + "%"} textColor={statistic.savingRate >= 0 ? "text-green-500" : "text-red-500"}
             icon={"%"} color={""} style={"text-black"} />
         </div>
       </div>
