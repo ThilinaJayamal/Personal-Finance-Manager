@@ -11,7 +11,8 @@ import {
 } from 'recharts';
 
 
-function IncomeExpenseChart({ data }) {
+function IncomeExpenseChart({data}) {
+
   return (
     <div style={{ width: '100%', height: 400 }}>
       {
@@ -30,7 +31,7 @@ function IncomeExpenseChart({ data }) {
         )
           :
           (
-            <p style={{ textAlign: 'center', marginTop: 150 }}>No data to display</p>
+            <p style={{ textAlign: 'center', marginTop: 150 }}>An error has occurred. </p>
           )
       }
 
