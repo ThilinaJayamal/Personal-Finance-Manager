@@ -33,9 +33,6 @@ function Login() {
       } else {
         // Call login function
         await login({ email, password });
-
-        // Redirect user (optional, update path as needed)
-        navigate('/dashboard');
       }
     } catch (err) {
       // Show a user-friendly error message
