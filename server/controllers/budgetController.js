@@ -11,7 +11,7 @@ export const addBudget = async (req, res) => {
       return res.status(400).json({ message: 'Budget for this category already exists' });
     }
 
-    const budget = await Budget.create({ user, category, amount, month });
+    const budget = await Budget.create({ user, category, amount });
     res.status(201).json(budget);
   } catch (err) {
     if (err.code === 11000) {
