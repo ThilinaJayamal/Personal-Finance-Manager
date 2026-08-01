@@ -14,6 +14,12 @@ function SetBudgets() {
       toast.error('Please select a category and enter a budget.');
       return;
     }
+
+    if (Number(amount) <= 0) {
+      toast.error('Budget amount should be greater than 0.');
+      return;
+    }
+
     setLoading(true); // start loading
     try {
       await addBudget({
@@ -24,8 +30,8 @@ function SetBudgets() {
       await getBudgetUsage();
       setCategory('');
       setAmount('');
-    } catch (error) {
-      console.log(error);
+    } catch {
+      return;
     } finally {
       setLoading(false); // stop loading no matter what
     }

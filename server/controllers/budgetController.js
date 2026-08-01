@@ -3,7 +3,7 @@ import Transaction from '../models/Transaction.js';
 
 export const addBudget = async (req, res) => {
   try {
-    const { category, amount, month } = req.body;
+    const { category, amount } = req.body;
     const user = req.user._id;
 
     const existingBudget = await Budget.findOne({ user, category });
