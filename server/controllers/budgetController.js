@@ -6,9 +6,17 @@ export const addBudget = async (req, res) => {
     const { category, amount, month } = req.body;
     const user = req.user._id;
 
+    const existingBudget = await Budget.findOne({ user, category });
+    if (existingBudget) {
+      return res.status(400).json({ message: 'Budget for this category already exists' });
+    }
+
     const budget = await Budget.create({ user, category, amount, month });
     res.status(201).json(budget);
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'Budget for this category already exists' });
+    }
     res.status(500).json({ message: 'Server Error' });
   }
 };
@@ -27,6 +35,11 @@ export const updateBudget = async (req, res) => {
     const { id } = req.params;
     const { category, amount } = req.body;
 
+    const existingBudget = await Budget.findOne({ user: req.user._id, category, _id: { $ne: id } });
+    if (existingBudget) {
+      return res.status(400).json({ message: 'Budget for this category already exists' });
+    }
+
     const budget = await Budget.findOneAndUpdate(
       { _id: id, user: req.user._id },
       { category, amount },
@@ -37,6 +50,9 @@ export const updateBudget = async (req, res) => {
 
     res.status(200).json(budget);
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'Budget for this category already exists' });
+    }
     res.status(500).json({ message: 'Server Error' });
   }
 };

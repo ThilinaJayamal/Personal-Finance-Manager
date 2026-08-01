@@ -9,10 +9,12 @@ import SetBudgets from './sections/SetBudgets'
 import ProtectedRoute from './components/ProtectedRoute';
 import { Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
     <>
+      <Analytics />
       <Routes>
         {/** Login route (public) */}
         <Route path='login' element={<Login />} />
